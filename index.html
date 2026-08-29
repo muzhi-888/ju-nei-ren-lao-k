@@ -3,102 +3,191 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="人无横财不富，马无夜草不肥。局内人·老K的AI实战搞钱库——不讲鸡汤，只拆底层机制。进ima搜：局内人·老K">
+<meta name="description" content="人无横财不富，马无夜草不肥。局内人·老K的AI实战搞钱库——不讲鸡汤，只拆底层机制。ima搜：局内人·老K">
 <meta property="og:title" content="局内人·老K ｜ 搞钱密道">
 <meta property="og:description" content="人无横财不富，马无夜草不肥。AI时代创造财富的底层机制，更多赚钱密道，在ima搜：局内人·老K">
 <meta property="og:type" content="website">
 <title>局内人·老K ｜ 搞钱密道</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
     background: radial-gradient(circle at 50% -10%, #1a1626 0%, #0b0b0e 55%);
+    background-attachment: fixed;
     color: #eae6df;
     line-height: 1.7;
-    padding: 0 16px;
-    min-height: 100vh;
   }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 56px 0 72px; }
-  header { text-align: center; margin-bottom: 40px; }
-  .logo { margin-bottom: 18px; }
-  .brand {
-    font-size: 30px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: #f2efe9;
+
+  /* ---------- 顶部导航 ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11,11,14,.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(212,175,55,.18);
   }
+  .nav-in {
+    max-width: 1080px; margin: 0 auto; padding: 10px 16px;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .nav-brand {
+    font-weight: 800; font-size: 16px; color: #f2efe9;
+    letter-spacing: 1px; white-space: nowrap; text-decoration: none;
+  }
+  .nav-brand span { color: #d4af37; }
+  .nav-links { display: flex; gap: 4px; flex: 1; flex-wrap: wrap; }
+  .nav-links a {
+    color: #9d988e; text-decoration: none; font-size: 13px;
+    padding: 6px 11px; border-radius: 7px; white-space: nowrap;
+    transition: color .2s, background .2s;
+  }
+  .nav-links a:hover { color: #d4af37; background: rgba(212,175,55,.09); }
+  .nav-cta {
+    background: #d4af37; color: #1a1408; text-decoration: none;
+    font-size: 13px; font-weight: 700; padding: 7px 15px;
+    border-radius: 8px; white-space: nowrap; flex-shrink: 0;
+  }
+  .nav-cta:hover { background: #e6c34d; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- 首屏 ---------- */
+  header.hero { text-align: center; padding: 60px 16px 44px; }
+  .logo { margin-bottom: 16px; }
+  .brand { font-size: 32px; font-weight: 800; letter-spacing: 2px; color: #f2efe9; }
   .brand span { color: #d4af37; }
-  .tagline {
-    margin-top: 14px;
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 3px;
-    color: #d4af37;
-  }
+  .tagline { margin-top: 12px; font-size: 23px; font-weight: 800; letter-spacing: 3px; color: #d4af37; }
   .endorse {
-    display: inline-block;
-    margin-top: 16px;
-    padding: 5px 14px;
-    border: 1px solid rgba(212,175,55,0.45);
-    border-radius: 999px;
-    font-size: 13px;
-    color: #c9c4ba;
-    letter-spacing: 1px;
+    display: inline-block; margin-top: 15px; padding: 5px 14px;
+    border: 1px solid rgba(212,175,55,.45); border-radius: 999px;
+    font-size: 13px; color: #c9c4ba; letter-spacing: 1px;
   }
   .endorse b { color: #d4af37; font-weight: 700; }
   .intro {
-    background: rgba(255,255,255,0.03);
-    border-left: 4px solid #d4af37;
-    padding: 16px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    color: #b9b4ab;
-    margin-bottom: 36px;
+    max-width: 640px; margin: 26px auto 0;
+    background: rgba(255,255,255,.03); border-left: 4px solid #d4af37;
+    padding: 16px 20px; border-radius: 8px; font-size: 14px; color: #b9b4ab; text-align: left;
   }
-  .cards { display: grid; gap: 16px; }
+  .hero-btns { margin-top: 26px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    background: #d4af37; color: #1a1408; text-decoration: none;
+    font-size: 14px; font-weight: 700; padding: 11px 22px; border-radius: 8px;
+    display: inline-block; border: none; cursor: pointer; font-family: inherit;
+  }
+  .btn:hover { background: #e6c34d; }
+  .btn.ghost {
+    background: transparent; color: #d4af37;
+    border: 1px solid rgba(212,175,55,.5);
+  }
+  .btn.ghost:hover { background: rgba(212,175,55,.1); }
+
+  .stats {
+    margin: 34px auto 0; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  }
+  .stat {
+    background: rgba(255,255,255,.03); border: 1px solid rgba(212,175,55,.2);
+    border-radius: 10px; padding: 12px 20px; min-width: 116px;
+  }
+  .stat b { display: block; font-size: 22px; color: #d4af37; font-weight: 800; }
+  .stat span { font-size: 12px; color: #8c887f; }
+
+  /* ---------- 区块 ---------- */
+  section { padding: 46px 0 8px; scroll-margin-top: 66px; }
+  .sec-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+  .sec-head h2 { font-size: 20px; font-weight: 800; color: #f2efe9; letter-spacing: 1px; }
+  .sec-head .en { font-size: 12px; color: #6f6b63; letter-spacing: 2px; text-transform: uppercase; }
+  .sec-desc { font-size: 13px; color: #8c887f; margin-bottom: 20px; }
+  .divider { height: 1px; background: rgba(212,175,55,.14); margin: 40px 0 0; }
+
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
   .card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(212,175,55,0.22);
-    border-radius: 12px;
-    padding: 20px 22px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    background: rgba(255,255,255,.03); border: 1px solid rgba(212,175,55,.22);
+    border-radius: 12px; padding: 18px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
     transition: box-shadow .2s, transform .2s, border-color .2s;
   }
   .card:hover {
-    box-shadow: 0 0 22px rgba(212,175,55,0.15);
-    border-color: rgba(212,175,55,0.5);
-    transform: translateY(-2px);
+    box-shadow: 0 0 22px rgba(212,175,55,.15);
+    border-color: rgba(212,175,55,.5); transform: translateY(-2px);
   }
-  .card .info { flex: 1; }
-  .card .name { font-size: 17px; font-weight: 700; color: #d4af37; }
-  .card .desc { font-size: 13px; color: #8c887f; margin-top: 4px; }
-  .btn {
-    flex-shrink: 0;
-    background: #d4af37;
-    color: #1a1408;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 10px 18px;
-    border-radius: 8px;
-    white-space: nowrap;
+  .card .info { flex: 1; min-width: 0; }
+  .card .name { font-size: 15px; font-weight: 700; color: #d4af37; }
+  .card .desc { font-size: 12.5px; color: #8c887f; margin-top: 3px; }
+  .card .go {
+    flex-shrink: 0; background: #d4af37; color: #1a1408; text-decoration: none;
+    font-size: 13px; font-weight: 700; padding: 8px 15px; border-radius: 7px; white-space: nowrap;
   }
-  .btn:hover { background: #e6c34d; }
-  .foot {
-    margin-top: 44px;
-    text-align: center;
-    font-size: 13px;
-    color: #6f6b63;
+  .card .go:hover { background: #e6c34d; }
+  .card .go.ghost { background: transparent; color: #d4af37; border: 1px solid rgba(212,175,55,.45); }
+
+  .cat-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 18px; }
+  .chip {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(212,175,55,.24);
+    color: #a9a49a; font-size: 12.5px; padding: 5px 13px; border-radius: 999px;
+    cursor: pointer; font-family: inherit; transition: all .2s;
   }
+  .chip:hover { color: #d4af37; border-color: rgba(212,175,55,.45); }
+  .chip.on { background: #d4af37; color: #1a1408; border-color: #d4af37; font-weight: 700; }
+
+  /* ---------- 中段 CTA 横幅 ---------- */
+  .banner {
+    margin: 44px 0 0; padding: 30px 24px; text-align: center;
+    background: linear-gradient(135deg, rgba(212,175,55,.14), rgba(212,175,55,.03));
+    border: 1px solid rgba(212,175,55,.32); border-radius: 14px;
+  }
+  .banner h3 { font-size: 19px; color: #f2efe9; font-weight: 800; margin-bottom: 8px; }
+  .banner p { font-size: 13.5px; color: #a9a49a; margin-bottom: 18px; }
+  .kbd {
+    display: inline-block; background: rgba(0,0,0,.35); border: 1px solid rgba(212,175,55,.4);
+    color: #d4af37; font-weight: 700; padding: 4px 12px; border-radius: 6px;
+    font-size: 14px; letter-spacing: 1px; margin: 0 3px;
+  }
+
+  /* ---------- 关于 ---------- */
+  .about {
+    background: rgba(255,255,255,.03); border: 1px solid rgba(212,175,55,.18);
+    border-radius: 12px; padding: 22px 24px; font-size: 13.5px; color: #a9a49a;
+  }
+  .about p { margin-bottom: 10px; }
+  .about p:last-child { margin-bottom: 0; }
+  .about b { color: #d4af37; }
+
+  .foot { margin-top: 46px; padding-bottom: 40px; text-align: center; font-size: 13px; color: #6f6b63; }
   .foot b { color: #c9c4ba; }
+  .foot-links { margin-top: 10px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .foot-links a { color: #8c887f; text-decoration: none; font-size: 12.5px; }
+  .foot-links a:hover { color: #d4af37; }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .brand { font-size: 26px; }
+    .tagline { font-size: 19px; letter-spacing: 2px; }
+    .grid { grid-template-columns: 1fr; }
+    header.hero { padding: 40px 16px 30px; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
+
+<!-- ============ 导航 ============ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-brand" href="#top">局内人<span>·</span>老K</a>
+    <div class="nav-links">
+      <a href="#kb">知识库</a>
+      <a href="#tools">AI工具</a>
+      <a href="#radar">赛道雷达</a>
+      <a href="#money">投资选号</a>
+      <a href="#about">关于</a>
+    </div>
+    <a class="nav-cta" href="#kb">进库 →</a>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
+
+  <!-- ============ 首屏 ============ -->
+  <header class="hero">
     <div class="logo">
       <svg width="76" height="76" viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg">
         <circle cx="38" cy="38" r="35" fill="none" stroke="#d4af37" stroke-width="2"/>
@@ -109,59 +198,362 @@
     <div class="brand">局内人<span>·</span>老K</div>
     <div class="tagline">人无横财不富，马无夜草不肥</div>
     <div class="endorse">内容均托管于 <b>ima 知识库</b></div>
+
+    <div class="intro">
+      AI时代创造财富的机会。在规则里待过二十年，不讲鸡汤，只拆搞钱的底层机制，挖掘更多赚钱密道。
+      直接查看下面选项，或者在 ima 搜：<b style="color:#d4af37">局内人·老K</b>
+    </div>
+
+    <div class="hero-btns">
+      <a class="btn" href="#kb">进 ima 知识库 →</a>
+      <a class="btn ghost" href="#tools">先看 AI 工具</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>200+</b><span>知识库条目</span></div>
+      <div class="stat"><b>38</b><span>开源工具仓库</span></div>
+      <div class="stat"><b>10</b><span>赛道搞钱雷达</span></div>
+      <div class="stat"><b>0元</b><span>全部免费看</span></div>
+    </div>
   </header>
 
-  <div class="intro">
-    AI时代创造财富的机会。在规则里待过二十年，不讲鸡汤，只拆搞钱的底层机制，挖掘更多赚钱密道。
-    直接查看下面选项，或者在 ima 搜：局内人·老K
+  <!-- ============ 知识库 ============ -->
+  <section id="kb">
+    <div class="sec-head"><h2>ima 知识库</h2><span class="en">Knowledge Base</span></div>
+    <div class="sec-desc">主力库持续更新，搜索关键词 <b style="color:#d4af37">局内人·老K</b> 一次找全。</div>
+    <div class="grid">
+      <div class="card">
+        <div class="info">
+          <div class="name">WorkBuddy 官方实战案例 200+</div>
+          <div class="desc">AI 实战打法 · 按场景拆好的现成套路</div>
+        </div>
+        <a class="go" href="#banner">去搜索</a>
+      </div>
+      <div class="card">
+        <div class="info">
+          <div class="name">WorkBuddy 官方 · ima 知识库 200 篇</div>
+          <div class="desc">ima 用法全解 · 从入门到邪修玩法</div>
+        </div>
+        <a class="go" href="#banner">去搜索</a>
+      </div>
+      <div class="card">
+        <div class="info">
+          <div class="name">搞钱真相局 · 暗棋全集</div>
+          <div class="desc">付费库 · 底层机制拆解</div>
+        </div>
+        <a class="go" href="#banner">去搜索</a>
+      </div>
+      <div class="card">
+        <div class="info">
+          <div class="name">出海真相局</div>
+          <div class="desc">跨境 / 出海 · 平台红利与坑位</div>
+        </div>
+        <a class="go" href="#banner">去搜索</a>
+      </div>
+      <div class="card">
+        <div class="info">
+          <div class="name">人性阴暗面 · 成交武器</div>
+          <div class="desc">成交心理 · 话术与反制</div>
+        </div>
+        <a class="go" href="#banner">去搜索</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ AI 工具 ============ -->
+  <section id="tools">
+    <div class="sec-head"><h2>AI 工具</h2><span class="en">Open Source Tools</span></div>
+    <div class="sec-desc">全部开源在 GitHub，拿走就能用，不用注册不用付费。点分类筛选。</div>
+
+    <div class="cat-tags">
+      <button class="chip on" data-filter="all">全部</button>
+      <button class="chip" data-filter="laok">老K 工具箱</button>
+      <button class="chip" data-filter="money">搞钱</button>
+      <button class="chip" data-filter="content">内容创作</button>
+      <button class="chip" data-filter="efficiency">办公提效</button>
+    </div>
+
+    <div class="grid" id="toolGrid">
+      <div class="card tool-card" data-cat="laok">
+        <div class="info">
+          <div class="name">lao-k-ai-toolkit · 搞钱雷达</div>
+          <div class="desc">赛道雷达 / 爆款结构 / 副业三步走 / 封面建议</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/lao-k-ai-toolkit" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="laok">
+        <div class="info">
+          <div class="name">lao-k-humanize · 文案去 AI 味</div>
+          <div class="desc">AI 稿秒变人话 · 带人味评分</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/lao-k-humanize" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="laok">
+        <div class="info">
+          <div class="name">lao-k-sidehustle · 副业方向核查</div>
+          <div class="desc">资源匹配搞钱方向 · 起步三步走</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/lao-k-sidehustle" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="laok">
+        <div class="info">
+          <div class="name">lao-k-diagram · 一句话出架构图</div>
+          <div class="desc">描述 / 代码 → 可编辑 SVG 架构图</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/lao-k-diagram" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="laok">
+        <div class="info">
+          <div class="name">lao-k-renovation · 装修避坑大师</div>
+          <div class="desc">报价单 / 合同 / 方案自动揪坑 + 避坑话术</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/lao-k-renovation" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+
+      <div class="card tool-card" data-cat="money">
+        <div class="info">
+          <div class="name">ai-side-hustle-checker · 副业体检</div>
+          <div class="desc">输入技能 / 时间 / 资金 → 副业方向</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/ai-side-hustle-checker" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="money">
+        <div class="info">
+          <div class="name">side-hustle-news-radar · 新闻拆副业</div>
+          <div class="desc">一条政策/平台新闻 → 可上手副业清单</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/side-hustle-news-radar" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="money">
+        <div class="info">
+          <div class="name">observer-money-compass · 搞钱指南针</div>
+          <div class="desc">AI 副业指南 · 打通 8 个 ima 知识库</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/observer-money-compass" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+
+      <div class="card tool-card" data-cat="content">
+        <div class="info">
+          <div class="name">ai-content-method-2026 · 内容量产法</div>
+          <div class="desc">AI 辅助内容周更 workflow · 不 burnout</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/ai-content-method-2026" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="content">
+        <div class="info">
+          <div class="name">ai-scheme-buster · 图表设计稿生成</div>
+          <div class="desc">一句话 → SVG/HTML · 30+ 模板</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/ai-scheme-buster" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+
+      <div class="card tool-card" data-cat="efficiency">
+        <div class="info">
+          <div class="name">ai-file-organizer-zh · 文件自动归类</div>
+          <div class="desc">粘贴文件夹路径 → 自动识别归类重命名</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/ai-file-organizer-zh" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="efficiency">
+        <div class="info">
+          <div class="name">daily-brief-copilot · 每日简报</div>
+          <div class="desc">多信息源 → 一键结构化简报</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/daily-brief-copilot" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="efficiency">
+        <div class="info">
+          <div class="name">observer-doc-templates · 文档模板</div>
+          <div class="desc">法务 / 商务文档模板生成器</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/observer-doc-templates" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card tool-card" data-cat="efficiency">
+        <div class="info">
+          <div class="name">observer-workbuddy-guide · 上手导航</div>
+          <div class="desc">WorkBuddy 案例 / 流程 / 提示词</div>
+        </div>
+        <a class="go" href="https://github.com/muzhi-888/observer-workbuddy-guide" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ 赛道雷达 ============ -->
+  <section id="radar">
+    <div class="sec-head"><h2>赛道雷达</h2><span class="en">Industry Radar</span></div>
+    <div class="sec-desc">十个赛道，逐个扫搞钱机会、红利窗口和入局门槛。不承诺收益，只拆机会。</div>
+    <div class="grid">
+      <div class="card">
+        <div class="info"><div class="name">AI 应用 / 智能体</div><div class="desc">工具红利与变现路径</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-ai" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info"><div class="name">短视频 / 直播带货</div><div class="desc">还能做的红利玩法与避坑</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-shortvideo" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info"><div class="name">本地生活 / 实体店</div><div class="desc">抖音·视频号·点评引流打法</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-local" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info"><div class="name">银发 / 适老化</div><div class="desc">被忽视的服务红利</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-silver" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info"><div class="name">宠物 / 萌宠</div><div class="desc">品类红利与变现打法</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-pet" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info"><div class="name">文旅 / 研学 / 夜经济</div><div class="desc">在地红利与轻资产打法</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-travel" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info"><div class="name">二手 / 回收 / 闲置</div><div class="desc">品类红利与变现打法</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-secondhand" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info"><div class="name">知识付费 / 咨询</div><div class="desc">热门方向与交付形式</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-course" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info"><div class="name">跨境 / 出海</div><div class="desc">平台红利与低成本路径</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-crossborder" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info"><div class="name">新能源 / 储能</div><div class="desc">区域红利与入局门槛</div></div>
+        <a class="go" href="https://github.com/muzhi-888/industry-money-energy" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ 投资 & 选号 ============ -->
+  <section id="money">
+    <div class="sec-head"><h2>投资 &amp; 选号</h2><span class="en">Money Tools</span></div>
+    <div class="sec-desc">模拟盘和娱乐选号，图一乐，不构成任何投资建议。</div>
+    <div class="grid">
+      <div class="card">
+        <div class="info">
+          <div class="name">黄金买卖 · 超强 AI 模拟</div>
+          <div class="desc">沪市 4 品种 · 60 日 K 线 · 零成本练手</div>
+        </div>
+        <a class="go" href="https://ima.qq.com/wiki/?shareId=0015ce30c8c01e020e266afca6c0a907964f575c7a9e3d6ace6304e08f8aa7d5" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info">
+          <div class="name">AI 智能选股 · 大模型穿透</div>
+          <div class="desc">A 股热点池 · 涨幅 / 量能 / 跌幅榜合并</div>
+        </div>
+        <a class="go" href="https://ima.qq.com/wiki/?shareId=cd7ad0b3bd518c21649acbd8f53b70c0cec673376b76c1c2645fb1b31ae1bb9a" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info">
+          <div class="name">彩票娱乐选号 · AI 大模型选号</div>
+          <div class="desc">双色球 / 大乐透 · 历史数据查重</div>
+        </div>
+        <a class="go" href="https://ima.qq.com/wiki/?shareId=88284c0d6d09e4cb5ac553334ea84e4924f815ea2e053cfa12a45b5a8a74ab41" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info">
+          <div class="name">福利彩票娱乐选号 · AI 选号</div>
+          <div class="desc">福彩 3D / 七乐彩 · 娱乐向选号</div>
+        </div>
+        <a class="go" href="https://ima.qq.com/wiki/?shareId=6bcb228432ee69371086bc04d372b6e1bf14a5e86ce2457c320933563a0f3b8d" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+      <div class="card">
+        <div class="info">
+          <div class="name">体育彩票娱乐选号 · AI 选号</div>
+          <div class="desc">排列 3 / 七星彩 · 娱乐向选号</div>
+        </div>
+        <a class="go" href="https://ima.qq.com/wiki/?shareId=d9bcb232b17148d324f527f282869a44206f23fc63f17c3c4914e5b4bbaf5a3e" target="_blank" rel="noopener noreferrer">查看</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 中段 CTA 横幅 ============ -->
+  <div class="banner" id="banner">
+    <h3>一次搜全，别一个个翻</h3>
+    <p>打开 ima，搜索框输入下面这五个字，全部库和工具一次出来：</p>
+    <div style="margin-bottom:18px"><span class="kbd">局内人·老K</span></div>
+    <button class="btn" id="copyBtn" type="button">复制关键词</button>
   </div>
 
-  <div class="cards">
-    <div class="card">
-      <div class="info">
-        <div class="name">黄金买卖· 超强AI 模拟</div>
-        <div class="desc">沪市4品种 · 60日K线 · 零成本练手</div>
-      </div>
-      <a class="btn" href="https://ima.qq.com/wiki/?shareId=0015ce30c8c01e020e266afca6c0a907964f575c7a9e3d6ace6304e08f8aa7d5" target="_blank" rel="noopener noreferrer">查看</a>
-    </div>
+  <div class="divider"></div>
 
-    <div class="card">
-      <div class="info">
-        <div class="name">AI 智能选股· 超强大模型穿透</div>
-        <div class="desc">A股热点池 · 涨幅/量能/跌幅榜合并</div>
-      </div>
-      <a class="btn" href="https://ima.qq.com/wiki/?shareId=cd7ad0b3bd518c21649acbd8f53b70c0cec673376b76c1c2645fb1b31ae1bb9a" target="_blank" rel="noopener noreferrer">查看</a>
+  <!-- ============ 关于 ============ -->
+  <section id="about">
+    <div class="sec-head"><h2>关于</h2><span class="en">About</span></div>
+    <div class="about">
+      <p><b>局内人·老K</b> —— 在规则里待过二十年的实体生意人，现在主攻「实体小老板 + AI」落地。</p>
+      <p>不卖课、不画饼、不讲鸡汤。只做两件事：<b>拆搞钱的底层机制</b>，<b>把 AI 工具磨成能直接上手用的家伙</b>。</p>
+      <p>上面所有 GitHub 仓库全部开源免费自取；ima 知识库持续更新，主力库已积累 <b>200+</b> 条目。工具和内容都还在长，隔几天回来看一次就有新东西。</p>
+      <p>投资与选号相关内容仅供学习娱乐，<b>不构成任何投资建议</b>。市场有风险，钱是自己的。</p>
     </div>
+  </section>
 
-    <div class="card">
-      <div class="info">
-        <div class="name">彩票娱乐选号 · 超强 AI大模型选号</div>
-        <div class="desc">双色球/大乐透 · 历史数据查重</div>
-      </div>
-      <a class="btn" href="https://ima.qq.com/wiki/?shareId=88284c0d6d09e4cb5ac553334ea84e4924f815ea2e053cfa12a45b5a8a74ab41" target="_blank" rel="noopener noreferrer">查看</a>
-    </div>
-
-    <div class="card">
-      <div class="info">
-        <div class="name">福利彩票娱乐选号 · 超强 AI大模型选号</div>
-        <div class="desc">福彩3D/七乐彩 · 娱乐向选号</div>
-      </div>
-      <a class="btn" href="https://ima.qq.com/wiki/?shareId=6bcb228432ee69371086bc04d372b6e1bf14a5e86ce2457c320933563a0f3b8d" target="_blank" rel="noopener noreferrer">查看</a>
-    </div>
-
-    <div class="card">
-      <div class="info">
-        <div class="name">体育彩票娱乐选号 · 超强 AI大模型选号</div>
-        <div class="desc">排列3/七星彩 · 娱乐向选号</div>
-      </div>
-      <a class="btn" href="https://ima.qq.com/wiki/?shareId=d9bcb232b17148d324f527f282869a44206f23fc63f17c3c4914e5b4bbaf5a3e" target="_blank" rel="noopener noreferrer">查看</a>
-    </div>
-  </div>
-
+  <!-- ============ 页脚 ============ -->
   <div class="foot">
-    适合：想用 AI 辅助投资/选号复盘、但没时间自己搭体系的普通玩家<br>
+    适合：想用 AI 辅助搞钱、但没时间自己搭体系的普通玩家<br>
     <b>局内人·老K</b> · 内容仅供学习娱乐，不构成任何投资建议
+    <div class="foot-links">
+      <a href="#kb">知识库</a>
+      <a href="#tools">AI 工具</a>
+      <a href="#radar">赛道雷达</a>
+      <a href="#money">投资选号</a>
+      <a href="https://github.com/muzhi-888" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
   </div>
+
 </div>
+
+<script>
+  // 分类筛选
+  var chips = document.querySelectorAll('.chip');
+  var cards = document.querySelectorAll('.tool-card');
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chips.forEach(function (c) { c.classList.remove('on'); });
+      chip.classList.add('on');
+      var f = chip.getAttribute('data-filter');
+      cards.forEach(function (card) {
+        var cat = card.getAttribute('data-cat');
+        card.style.display = (f === 'all' || f === cat) ? '' : 'none';
+      });
+    });
+  });
+
+  // 复制关键词
+  var copyBtn = document.getElementById('copyBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var text = '局内人·老K';
+      var done = function () {
+        copyBtn.textContent = '已复制 ✓';
+        setTimeout(function () { copyBtn.textContent = '复制关键词'; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text, done); });
+      } else {
+        fallbackCopy(text, done);
+      }
+    });
+  }
+  function fallbackCopy(text, cb) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); cb(); } catch (e) { /* 忽略 */ }
+    document.body.removeChild(ta);
+  }
+</script>
+
 </body>
 </html>
