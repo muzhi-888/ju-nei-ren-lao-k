@@ -330,18 +330,27 @@ body{background:#04060b;color:var(--ink);font-family:var(--serif);overflow:hidde
     brand.textContent='回声 · 活世界设定集 ｜ 牧野之南 出品';
     var share=document.createElement('button');
     share.className='c'; share.textContent='把这句回声带给一个人';
+    var hint=document.createElement('div');
+    hint.style.cssText='font-family:var(--kai);color:#8a8672;font-size:12px;letter-spacing:.06em;text-align:center;line-height:1.9;';
+    hint.style.display='none';
     share.onclick=function(){
       var text='【回声】'+txt+'——来，留下一粒你的沙：'+SHARE_URL;
-      copyText(text, share, '已复制 · 去粘贴给他');
+      copyText(text, share, '已复制 ✓', hint);
     };
     var b=document.createElement('button');
     b.className='c'; b.textContent='重 播 第 一 幕';
     b.onclick=function(){ audioChime(660); filmPlay(0); };
     choiceBox.appendChild(d); choiceBox.appendChild(brand);
-    choiceBox.appendChild(share); choiceBox.appendChild(b);
+    choiceBox.appendChild(share); choiceBox.appendChild(hint); choiceBox.appendChild(b);
   }
-  function copyText(t, btn, okMsg){
-    function ok(){ btn.textContent=okMsg; }
+  function copyText(t, btn, okMsg, hint){
+    function ok(){
+      btn.textContent=okMsg;
+      if(hint){
+        hint.style.display='block';
+        hint.textContent='复制到的是：你那句结局 + 玩的链接。打开微信，粘贴给任何一个人（好友、群、朋友圈都行）——他点开链接，就走进同一片沙。';
+      }
+    }
     function fallback(){
       var ta=document.createElement('textarea');
       ta.value=t; ta.style.cssText='position:fixed;opacity:0';
