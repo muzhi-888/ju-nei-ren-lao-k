@@ -145,7 +145,21 @@ body{background:#04060b;color:var(--ink);font-family:var(--serif);overflow:hidde
 
   /* ---------- 音效轨（Web Audio 实时合成「余韵」drone） ---------- */
   var AC=null, droneGain=null, sndOn=true, booted=false, curAudio=null;
+
+  /* 移动端声音解锁：手势内先播 0.2s 静音音频，激活浏览器的音频会话，
+     之后异步链里的 play() 才不会被 autoplay 策略拦掉（iOS/微信/安卓 WebView） */
+  var UNLOCK_SRC='data:audio/wav;base64,UklGRmQGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YUAGAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+  var unlockA=null;
+  function audioUnlock(){
+    try{
+      if(!unlockA){ unlockA=new Audio(UNLOCK_SRC); unlockA.volume=0; }
+      var p=unlockA.play();
+      if(p&&p.catch) p.catch(function(){});
+    }catch(e){}
+  }
+
   function audioBoot(){
+    audioUnlock();
     if(booted)return;
     var Ctx=window.AudioContext||window.webkitAudioContext;
     if(!Ctx)return;
@@ -250,11 +264,19 @@ body{background:#04060b;color:var(--ink);font-family:var(--serif);overflow:hidde
       startReveal(dur);
       guard=setTimeout(fin, dur*1000 + 2200);
       if(!sndOn) return;
+      audioUnlock();   /* 移动端兜底：播放前再解锁一次 */
       var a=new Audio(); a.preload='auto'; a.muted=false; a.volume=1; a.src='data:audio/mpeg;base64,'+b64;
       localAudio=a; curAudio=a;
       a.onended=function(){ fin(); };
       a.onerror=function(){ if(revTimer){clearInterval(revTimer);revTimer=null;} };
-      try{ var pr=a.play(); if(pr&&pr.catch) pr.catch(function(){}); }catch(e){}
+      try{
+        var pr=a.play();
+        if(pr&&pr.catch) pr.catch(function(){
+          /* 首次播放被 autoplay 拦掉：解锁后重试一次 */
+          audioUnlock();
+          setTimeout(function(){ try{ var p2=a.play(); if(p2&&p2.catch) p2.catch(function(){}); }catch(e){} },350);
+        });
+      }catch(e){}
     }
     // 乐观：按估算时长先开始打字，屏幕不空场；音频到达（云端或兜底）后再播声音
     startReveal(estDur(text));
