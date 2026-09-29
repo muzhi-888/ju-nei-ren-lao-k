@@ -335,7 +335,7 @@ body{background:#04060b;color:var(--ink);font-family:var(--serif);overflow:hidde
     hint.style.display='none';
     share.onclick=function(){
       var text='【回声】'+txt+'——来，留下一粒你的沙：'+SHARE_URL;
-      copyText(text, share, '已复制 ✓', hint);
+      copyText(text, share, hint);
     };
     var b=document.createElement('button');
     b.className='c'; b.textContent='重 播 第 一 幕';
@@ -343,24 +343,46 @@ body{background:#04060b;color:var(--ink);font-family:var(--serif);overflow:hidde
     choiceBox.appendChild(d); choiceBox.appendChild(brand);
     choiceBox.appendChild(share); choiceBox.appendChild(hint); choiceBox.appendChild(b);
   }
-  function copyText(t, btn, okMsg, hint){
-    function ok(){
-      btn.textContent=okMsg;
+  function copyText(t, btn, hint){
+    /* 三层保险：剪贴板API → iOS兼容execCommand → 屏幕直接显示全文（长按手动复制）。
+       无论成败都把分享原文亮出来，不依赖系统剪贴板（微信内置浏览器经常静默失败）。 */
+    function done(success){
+      btn.textContent = success ? '已复制 ✓' : '复制不了？长按下面那行字';
       if(hint){
         hint.style.display='block';
-        hint.textContent='复制到的是：你那句结局 + 玩的链接。打开微信，粘贴给任何一个人（好友、群、朋友圈都行）——他点开链接，就走进同一片沙。';
+        hint.innerHTML='';
+        var line=document.createElement('div');
+        line.textContent=t;
+        line.style.cssText='margin:8px auto 0;padding:10px 14px;max-width:560px;border:1px solid rgba(201,169,97,.35);border-radius:10px;background:rgba(6,9,15,.55);color:#b9b39f;font-size:13px;letter-spacing:.02em;line-height:1.8;word-break:break-all;user-select:all;-webkit-user-select:all;cursor:text;';
+        hint.appendChild(line);
+        var tip=document.createElement('div');
+        tip.style.cssText='margin-top:7px;';
+        tip.textContent = success
+          ? '复制到的是：你那句结局 + 玩的链接。打开微信，粘贴给任何一个人——他点开链接，就走进同一片沙。'
+          : '长按上面那行字 → 全选 → 复制 → 打开微信，粘贴给任何一个人——他点开链接，就走进同一片沙。';
+        hint.appendChild(tip);
       }
     }
-    function fallback(){
+    function execCopy(){
       var ta=document.createElement('textarea');
-      ta.value=t; ta.style.cssText='position:fixed;opacity:0';
-      document.body.appendChild(ta); ta.select();
-      try{ document.execCommand('copy'); ok(); }catch(e){ btn.textContent=t; }
+      ta.value=t;
+      ta.contentEditable=true;
+      ta.style.cssText='position:fixed;top:0;left:0;width:1px;height:1px;padding:0;border:none;outline:none;box-shadow:none;opacity:.01;overflow:hidden;background:transparent;';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      var ok=false;
+      try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
       document.body.removeChild(ta);
+      return ok===true;
     }
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(t).then(ok, fallback);
-    } else fallback();
+      navigator.clipboard.writeText(t).then(
+        function(){ done(true); },
+        function(){ done(execCopy()); }
+      );
+    } else {
+      done(execCopy());
+    }
   }
 
   function filmPlay(i){
